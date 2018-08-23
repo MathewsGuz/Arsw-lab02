@@ -19,8 +19,8 @@ public class StartProduction {
     
     
     public static void main(String[] args) {
-        
-        Queue<Integer> queue=new LinkedBlockingQueue<>();
+        //poner variable mejor
+        Queue<Integer> queue=new LinkedBlockingQueue<>(15);
         
         
         new Producer(queue,Long.MAX_VALUE).start();
