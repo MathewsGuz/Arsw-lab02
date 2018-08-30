@@ -1,0 +1,6 @@
+parte 3
+pregunta 2 
+la suma de la vida de los n jugadores la cual por jugador es 100, la vida total deberia ser 100xn
+pregunta 3
+no , la vida de cada uno sobrepasa el 100
+

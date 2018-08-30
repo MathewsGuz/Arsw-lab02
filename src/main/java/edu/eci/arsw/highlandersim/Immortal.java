@@ -16,6 +16,9 @@ public class Immortal extends Thread {
     private final String name;
 
     private final Random r = new Random(System.currentTimeMillis());
+    
+    private String state="vivo";
+    
 
 
     public Immortal(String name, List<Immortal> immortalsPopulation, int health, int defaultDamageValue, ImmortalUpdateReportCallback ucb) {
@@ -25,31 +28,35 @@ public class Immortal extends Thread {
         this.immortalsPopulation = immortalsPopulation;
         this.health = health;
         this.defaultDamageValue=defaultDamageValue;
+;
     }
 
     public void run() {
 
         while (true) {
-            Immortal im;
+            while(state.equals("vivo")){
+                Immortal im;
 
-            int myIndex = immortalsPopulation.indexOf(this);
+                int myIndex = immortalsPopulation.indexOf(this);
 
-            int nextFighterIndex = r.nextInt(immortalsPopulation.size());
+                int nextFighterIndex = r.nextInt(immortalsPopulation.size());
 
-            //avoid self-fight
-            if (nextFighterIndex == myIndex) {
-                nextFighterIndex = ((nextFighterIndex + 1) % immortalsPopulation.size());
+                //avoid self-fight
+                if (nextFighterIndex == myIndex) {
+                    nextFighterIndex = ((nextFighterIndex + 1) % immortalsPopulation.size());
+                }
+
+                im = immortalsPopulation.get(nextFighterIndex);
+
+                this.fight(im);
+
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-
-            im = immortalsPopulation.get(nextFighterIndex);
-
-            this.fight(im);
-
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            
 
         }
 
@@ -79,6 +86,10 @@ public class Immortal extends Thread {
     public String toString() {
 
         return name + "[" + health + "]";
+    }
+
+    void pause() {
+        state = "pause";
     }
 
 }
