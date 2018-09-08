@@ -1,6 +1,13 @@
+parte 1
+pregunta 1
+la clase consumo , ya que siempre esta consultando en la cola.
+pregunta 2
+
 parte 3
 pregunta 2 
 la suma de la vida de los n jugadores la cual por jugador es 100, la vida total deberia ser 100xn
 pregunta 3
 no , la vida de cada uno sobrepasa el 100
+pregunta 5
+no aun no se cumple
 

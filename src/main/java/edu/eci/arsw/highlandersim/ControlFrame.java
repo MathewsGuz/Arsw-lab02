@@ -92,19 +92,18 @@ public class ControlFrame extends JFrame {
 				 * COMPLETAR
                  */
                 int sum = 0;
-                synchronized(immortals){
+                //synchronized(immortals){
                     
-                    for (Immortal im : immortals) {
-                        im.pause();
-                        sum += im.getHealth();
-                        
-                    }
+                for (Immortal im : immortals) {
+                    im.pause();
+
                 }
+                for (Immortal im : immortals) {
+                    sum += im.getHealth();
+                }
+                //}
 
                 statisticsLabel.setText("<html>"+immortals.toString()+"<br>Health sum:"+ sum);
-                
-                
-
             }
         });
         toolBar.add(btnPauseAndCheck);
@@ -116,6 +115,11 @@ public class ControlFrame extends JFrame {
                 /**
                  * IMPLEMENTAR
                  */
+                 for (Immortal im : immortals) {
+                        im.resumeGame();
+                      
+                        
+                    }
 
             }
         });

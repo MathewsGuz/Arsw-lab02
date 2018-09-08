@@ -19,6 +19,8 @@ public class Immortal extends Thread {
     
     private String state="vivo";
     
+    private Object locka = new Object();
+    
 
 
     public Immortal(String name, List<Immortal> immortalsPopulation, int health, int defaultDamageValue, ImmortalUpdateReportCallback ucb) {
@@ -55,22 +57,29 @@ public class Immortal extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                
             }
-            
-
+            synchronized (locka) {
+                try {
+                    locka.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
     }
 
     public void fight(Immortal i2) {
-
-        if (i2.getHealth() > 0) {
-            i2.changeHealth(i2.getHealth() - defaultDamageValue);
-            this.health += defaultDamageValue;
-            updateCallback.processReport("Fight: " + this + " vs " + i2+"\n");
-        } else {
-            updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
-        }
+        
+        synchronized (immortalsPopulation) {
+            if (i2.getHealth() > 0) {
+                i2.changeHealth(i2.getHealth() - defaultDamageValue);
+                this.health += defaultDamageValue;
+                updateCallback.processReport("Fight: " + this + " vs " + i2+"\n");
+            } else {
+                updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
+            }
+        }    
 
     }
 
@@ -88,8 +97,16 @@ public class Immortal extends Thread {
         return name + "[" + health + "]";
     }
 
-    void pause() {
+    public void pause() {
         state = "pause";
+    }
+    
+    /*HACER QUE ALGUIEN OCUPE LOS RECURSOS DIFERENTE AL HILO*/
+    public void resumeGame(){
+        state="vivo";
+         synchronized (locka) {
+            locka.notifyAll();
+        }
     }
 
 }
